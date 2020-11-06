@@ -18,13 +18,13 @@ function markerColor(coordinates) {
     return "#ffd24d"
   }
   else if (coordinates > 50 && coordinates <= 70 ) {
-    return ""
+    return "#ff9933"
   }
   else if (coordinates > 70 && coordinates <= 90 ) {
-    return ""
+    return "#ff6633"
   }
   else if (coordinates > 90) {
-    return ""
+    return "#ff3333"
   }
 };
   
