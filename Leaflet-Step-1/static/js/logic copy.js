@@ -16,30 +16,23 @@ d3.json(queryUrl).then(data => {
   createFeatures(data.features);
 });
 
-var magMarkers = [];
-var earthquakeMarkers = [];
 
-// this function handles the data which has other functions
+// this function handles the data which has other functions inside it
 function createFeatures(earthquakeData) {
 
-
-  // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
-
-    // we are using a very specific feature to leaflet, they give us the ability to have it perform a function each feature which 
-  // in this case its going to add a popup marker to each
-  function onEachFeature(feature, layer) {
-    // turn time to actual date time string
-    layer.bindPopup("<h3>" + feature.properties.title +
-      "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
-  }
+  // function onEachFeature(feature, layer) {
+  //   // turn time to actual date time string
+  //   layer.bindPopup("<h3>" + feature.properties.title +
+  //     "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+  // }
 
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
   // on each popup add the marker because everything else is already done.
-  var earthquakes = L.geoJSON(earthquakeData, {
-    onEachFeature: onEachFeature,
-  });
+  // var earthquakes = L.geoJSON(earthquakeData, {
+  //   onEachFeature: onEachFeature,
+  // });
 
 // my mind is spinning on this deal...it's a lot
   var mags = L.geoJSON(earthquakeData, {
@@ -54,11 +47,11 @@ function createFeatures(earthquakeData) {
   });
 
   // Sending our earthquakes layer to the createMap function
-  createMap(earthquakes, mags);
+  createMap(mags);
 }
 
 // this will do all the work to create the maps...
-function createMap(earthquakes, mags) {
+function createMap(mags) {
 
   // Define streetmap and darkmap layers
   var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -85,7 +78,7 @@ function createMap(earthquakes, mags) {
 
   // Create overlay object to hold our overlay layer
   var overlayMaps = {
-    Earthquakes: earthquakes,
+    // Earthquakes: earthquakes,
     Magnitudes: mags
   };
 
