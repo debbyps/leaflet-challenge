@@ -2,8 +2,9 @@
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
 // Function to determine marker size based on magnitude
+// could not use Math.sqrt kept getting NaN values
 function markerSize(mag) {
-   return Math.sqrt(mag)*50000;
+   return mag * 50000;
    }
 
 // Perform a GET request to the query URL, creating the promise
@@ -25,8 +26,8 @@ function createFeatures(earthquakeData) {
     },
     pointToLayer: (feature, latlng) => {
       return new L.Circle(latlng, {
-        radius: feature.properties.mag*50000,
-        // radius: markerSize(feature.properties.mag),
+        // radius: feature.properties.mag*50000,
+        radius: markerSize(feature.properties.mag),
         fillColor: "red",
         stroke: false 
       });
