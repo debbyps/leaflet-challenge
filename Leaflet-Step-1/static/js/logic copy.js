@@ -20,8 +20,8 @@ function createFeatures(earthquakeData) {
   var mags = L.geoJSON(earthquakeData, {
     // use onEachFeature to bind popup values for each data point
     onEachFeature: (feature, layer) => {
-      layer.bindPopup("<h3>" + feature.properties.title +
-      "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+      layer.bindPopup("Magnitude:" + feature.properties.mag + "<br>"+ "Depth:" + feature.geometry.coordinates[2]+
+      "</h3><br>" + "Location:" + feature.properties.place);
     },
     // use pointToLayer to pass a circle marker thus replacing original marker
     pointToLayer: (feature, latlng) => {
