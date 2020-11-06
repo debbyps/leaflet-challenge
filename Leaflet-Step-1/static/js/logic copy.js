@@ -12,19 +12,19 @@ function markerColor(coordinates) {
     return "#99ff33"
   }
   else if (coordinates > 10 && coordinates <= 30 ) {
-    return "#ccff99"
+    return "#d9ff66"
   }
   else if (coordinates > 30 && coordinates <= 50 ) {
-    return "#ffc34d"
+    return "#ffd24d"
   }
   else if (coordinates > 50 && coordinates <= 70 ) {
-    return "#ffc34d"
+    return ""
   }
   else if (coordinates > 70 && coordinates <= 90 ) {
-    return "#ffc34d"
+    return ""
   }
   else if (coordinates > 90) {
-    return "#ffc34d"
+    return ""
   }
 };
   
