@@ -3,7 +3,7 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 
 // Function to determine marker size based on magnitude
 function markerSize(mag) {
-   return Math.sqrt(mag)*100;
+   return Math.sqrt(mag)*50000;
    }
 
 // Perform a GET request to the query URL, creating the promise
@@ -25,7 +25,8 @@ function createFeatures(earthquakeData) {
     },
     pointToLayer: (feature, latlng) => {
       return new L.Circle(latlng, {
-        radius: markerSize(feature.properties.mag),
+        radius: feature.properties.mag*50000,
+        // radius: markerSize(feature.properties.mag),
         fillColor: "red",
         stroke: false 
       });
@@ -64,11 +65,10 @@ function createMap(mags) {
 
   // Create overlay object to hold our overlay layer
   var overlayMaps = {
-    // Earthquakes: earthquakes,
     Magnitudes: mags
   };
 
-  // Create our map, giving it the streetmap and earthquakes layers to display on load
+  // Create our map, giving it the streetmap and magnitude layers to display on load
   var myMap = L.map("map", {
     center: [
       37.09, -95.71
