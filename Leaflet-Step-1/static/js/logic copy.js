@@ -4,8 +4,18 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 // Function to determine marker size based on magnitude
 // could not use Math.sqrt kept getting NaN values
 function markerSize(mag) {
-   return mag * 50000;
-   }
+  return mag * 50000;
+  }
+120
+function markerColor(depth) {
+  if (depth <=10) {
+    return "#98FB98"
+  }
+  else if (depth <=30) {
+    return "#B8DC70"
+  }
+};
+  
 
 // Perform a GET request to the query URL, creating the promise
 d3.json(queryUrl).then(data => {
@@ -27,7 +37,8 @@ function createFeatures(earthquakeData) {
     pointToLayer: (feature, latlng) => {
       return new L.Circle(latlng, {
         radius: markerSize(feature.properties.mag),
-        fillColor: "red",
+        fillColor: markerColor(feature.geometry.coordinates[2]),
+        opacity: false,
         stroke: false 
       });
     }
