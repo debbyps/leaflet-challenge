@@ -14,6 +14,9 @@ function markerColor(depth) {
   else if (depth <=30) {
     return "#B8DC70"
   }
+  else if (depth <=50) {
+    return "#B8DC70"
+  }
 };
   
 
@@ -38,7 +41,7 @@ function createFeatures(earthquakeData) {
       return new L.Circle(latlng, {
         radius: markerSize(feature.properties.mag),
         fillColor: markerColor(feature.geometry.coordinates[2]),
-        opacity: false,
+        opacity: 1,
         stroke: false 
       });
     }
