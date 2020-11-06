@@ -10,23 +10,22 @@ function markerSize(mag) {
 // Perform a GET request to the query URL, creating the promise
 d3.json(queryUrl).then(data => {
   console.log(data);
-  // Once we get a response, send the data.features object to the createFeatures function
-  // just pass to a function for now this will hold all the info
+  // Once we get a response, send the data.features object to the createFeatures function, this will hold all the info
   createFeatures(data.features);
 });
-
 
 // this function handles the data which has other functions inside it
 function createFeatures(earthquakeData) {
 
   var mags = L.geoJSON(earthquakeData, {
+    // use onEachFeature to bind popup values for each data point
     onEachFeature: (feature, layer) => {
       layer.bindPopup("<h3>" + feature.properties.title +
       "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
     },
+    // use pointToLayer to pass a circle marker thus replacing original marker
     pointToLayer: (feature, latlng) => {
       return new L.Circle(latlng, {
-        // radius: feature.properties.mag*50000,
         radius: markerSize(feature.properties.mag),
         fillColor: "red",
         stroke: false 
