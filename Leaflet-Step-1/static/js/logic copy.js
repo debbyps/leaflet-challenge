@@ -6,16 +6,19 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 function markerSize(mag) {
   return mag * 50000;
   }
-120
-function markerColor(depth) {
-  if (depth <=10) {
-    return "#98FB98"
+
+function markerColor(coordinates) {
+  if (coordinates <=10) {
+    return "#99ff33"
   }
-  else if (depth <=30) {
-    return "#B8DC70"
+  else if (coordinates > 10 && coordinates <= 30 ) {
+    return "#ccff99"
   }
-  else if (depth <=50) {
-    return "#B8DC70"
+  else if (coordinates > 30 && coordinates <= 50 ) {
+    return "#ffc34d"
+  }
+  else if (coordinates > 50 && coordinates <= 70 ) {
+    return "#ffc34d"
   }
 };
   
@@ -39,10 +42,11 @@ function createFeatures(earthquakeData) {
     // use pointToLayer to pass a circle marker thus replacing original marker
     pointToLayer: (feature, latlng) => {
       return new L.Circle(latlng, {
-        radius: markerSize(feature.properties.mag),
+        stroke: false,
+        fillOpacity: 1,
+        color: markerColor(feature.geometry.coordinates[2]),
         fillColor: markerColor(feature.geometry.coordinates[2]),
-        opacity: 1,
-        stroke: false 
+        radius: markerSize(feature.properties.mag)
       });
     }
   });
