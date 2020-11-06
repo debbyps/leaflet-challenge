@@ -33,11 +33,11 @@ function createFeatures(earthquakeData) {
     }
   });
 
-  // Sending our earthquakes layer to the createMap function
+  // Sending our mags layer to the createMap function
   createMap(mags);
 }
 
-// this will do all the work to create the maps...
+// this function will do all the work to create the maps...
 function createMap(mags) {
 
   // Define streetmap and darkmap layers
