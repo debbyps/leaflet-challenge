@@ -1,12 +1,10 @@
-
 // Store our API endpoint inside queryUrl
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
-// Function to determine marker size based on population
+// Function to determine marker size based on magnitude
 function markerSize(mag) {
- // return population / 40;
-  return Math.sqrt(mag)*100;
-  }
+   return Math.sqrt(mag)*100;
+   }
 
 // Perform a GET request to the query URL, creating the promise
 d3.json(queryUrl).then(data => {
@@ -20,23 +18,11 @@ d3.json(queryUrl).then(data => {
 // this function handles the data which has other functions inside it
 function createFeatures(earthquakeData) {
 
-  // Give each feature a popup describing the place and time of the earthquake
-  // function onEachFeature(feature, layer) {
-  //   // turn time to actual date time string
-  //   layer.bindPopup("<h3>" + feature.properties.title +
-  //     "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
-  // }
-
-  // Create a GeoJSON layer containing the features array on the earthquakeData object
-  // Run the onEachFeature function once for each piece of data in the array
-  // on each popup add the marker because everything else is already done.
-  // var earthquakes = L.geoJSON(earthquakeData, {
-  //   onEachFeature: onEachFeature,
-  // });
-
-// my mind is spinning on this deal...it's a lot
   var mags = L.geoJSON(earthquakeData, {
-    onEachFeature: onEachFeature,
+    onEachFeature: (feature, layer) => {
+      layer.bindPopup("<h3>" + feature.properties.title +
+      "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+    },
     pointToLayer: (feature, latlng) => {
       return new L.Circle(latlng, {
         radius: markerSize(feature.properties.mag),
@@ -88,7 +74,7 @@ function createMap(mags) {
       37.09, -95.71
     ],
     zoom: 5,
-    layers: [streetmap, earthquakes]
+    layers: [streetmap, mags]
   });
 
   // Create a layer control
