@@ -20,6 +20,12 @@ function markerColor(coordinates) {
   else if (coordinates > 50 && coordinates <= 70 ) {
     return "#ffc34d"
   }
+  else if (coordinates > 70 && coordinates <= 90 ) {
+    return "#ffc34d"
+  }
+  else if (coordinates > 90) {
+    return "#ffc34d"
+  }
 };
   
 
