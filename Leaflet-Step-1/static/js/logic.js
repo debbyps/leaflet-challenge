@@ -1,55 +1,70 @@
 // Store our API endpoint inside queryUrl
-// api call we know how to read api documentation so we can construct a query for this on our own now
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
-// Perform a GET request to the query URL
-// we create a promise
+// Function to determine marker size based on magnitude
+// could not use Math.sqrt kept getting NaN values
+function markerSize(mag) {
+  return mag * 50000;
+  }
+
+function markerColor(coordinates) {
+  if (coordinates <=10) {
+    return "#99ff33"
+  }
+  else if (coordinates > 10 && coordinates <= 30 ) {
+    return "#d9ff66"
+  }
+  else if (coordinates > 30 && coordinates <= 50 ) {
+    return "#ffd24d"
+  }
+  else if (coordinates > 50 && coordinates <= 70 ) {
+    return "#ff9933"
+  }
+  else if (coordinates > 70 && coordinates <= 90 ) {
+    return "#ff6633"
+  }
+  else if (coordinates > 90) {
+    return "#ff3333"
+  }
+};
+  
+
+// Perform a GET request to the query URL, creating the promise
 d3.json(queryUrl).then(data => {
   console.log(data);
-  // Once we get a response, send the data.features object to the createFeatures function
-  // just pass to a function for now this will hold all the info
+  // Once we get a response, send the data.features object to the createFeatures function, this will hold all the info
   createFeatures(data.features);
 });
 
-// this function handles the data which has other functions
+// this function handles the data which has other functions inside it
 function createFeatures(earthquakeData) {
 
-  // Define a function we want to run once for each feature in the features array
-  // Give each feature a popup describing the place and time of the earthquake
-
-    // we are using a very specific feature to leaflet, they give us the ability to have it perform a function each feature which 
-  // in this case its going to add a popup marker to each
-  function onEachFeature(feature, layer) {
-    // turn time to actual date time string
-    layer.bindPopup("<h3>" + feature.properties.title +
-      "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
-  }
-
-  // Create a GeoJSON layer containing the features array on the earthquakeData object
-  // Run the onEachFeature function once for each piece of data in the array
-  // on each popup add the marker because everything else is already done.
-  var earthquakes = L.geoJSON(earthquakeData, {
-    onEachFeature: onEachFeature,
-  });
-
-// my mind is spinning on this deal...it's a lot
   var mags = L.geoJSON(earthquakeData, {
-    onEachFeature: onEachFeature,
+    // use onEachFeature to bind popup values for each data point
+    onEachFeature: (feature, layer) => {
+      layer.bindPopup("Magnitude:" + feature.properties.mag + "<br>"+ "Depth:" + feature.geometry.coordinates[2]+
+      "</h3><br>" + "Location:" + feature.properties.place);
+    },
+    // use pointToLayer to pass a circle marker thus replacing original marker
     pointToLayer: (feature, latlng) => {
       return new L.Circle(latlng, {
-        radius: feature.properties.mag*20000,
-        fillColor: "red",
-        stroke: false 
+        color: markerColor(feature.geometry.coordinates[2]),
+        fillColor: markerColor(feature.geometry.coordinates[2]),
+        radius: markerSize(feature.properties.mag),
+        fillOpacity: 1, 
+        // border for circles
+        stroke: true, 
+        color: "gray"
       });
     }
   });
 
-  // Sending our earthquakes layer to the createMap function
-  createMap(earthquakes, mags);
+  // Sending our mags layer to the createMap function
+  createMap(mags);
 }
 
-// this will do all the work to create the maps...
-function createMap(earthquakes, mags) {
+// this function will do all the work to create the maps...
+function createMap(mags) {
 
   // Define streetmap and darkmap layers
   var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -76,17 +91,16 @@ function createMap(earthquakes, mags) {
 
   // Create overlay object to hold our overlay layer
   var overlayMaps = {
-    Earthquakes: earthquakes,
     Magnitudes: mags
   };
 
-  // Create our map, giving it the streetmap and earthquakes layers to display on load
+  // Create our map, giving it the streetmap and magnitude layers to display on load
   var myMap = L.map("map", {
     center: [
       37.09, -95.71
     ],
-    zoom: 5,
-    layers: [streetmap, earthquakes]
+    zoom: 4,
+    layers: [streetmap, mags]
   });
 
   // Create a layer control
