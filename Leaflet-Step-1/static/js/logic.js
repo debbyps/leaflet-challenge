@@ -102,7 +102,20 @@ function createMap(mags) {
     zoom: 4,
     layers: [streetmap, mags]
   });
+  var legend = L.control({position: "bottomright"});
 
+  legend.onAdd = function(myMap) {
+    var div = L.DomUtil.create("div","legend");
+    div.innerHTML += "<h4>Legend</h4>"
+    div.innerHTML += '<i style="background: #99ff33"></i><span><=10</span><br>';
+    div.innerHTML += '<i style="background: #d9ff66"></i><span>11-30</span><br>';
+    div.innerHTML += '<i style="background: #ffd24d"></i><span>31-50</span><br>';
+    div.innerHTML += '<i style="background: #ff9933"></i><span>51-70</span><br>';
+    div.innerHTML += '<i style="background: #ff6633"></i><span>71-90</span><br>';
+    div.innerHTML += '<i style="background: #ff3333"></i><span>90+</span><br>';
+    return div;
+  }
+legend.addTo(myMap)
   // Create a layer control
   // Pass in our baseMaps and overlayMaps
   // Add the layer control to the map
