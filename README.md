@@ -8,4 +8,4 @@ The data is being collected from the USGS url where they provide GeoJSON data. I
 
 For the visualization, I created a map using Leaflet that plotted all earthquakes by their size and the color represents the depth of the earthquake. There are two map layers to choose from: Street Map and Dark Map. Tooltips have been included to give additional information about the earthquake and the legend defines the color scheme which again,represents the depth of the quake. 
 
-![Sample](Leaflet-Step-1/images/Sample.png)
+![Sample](Leaflet-Step-1/static/images/Sample.png)
