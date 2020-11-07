@@ -1,6 +1,6 @@
 # leaflet-challenge
 
-The purpose of this assignment is to create a tool that will allow USGS which allows them to visualize their earthquake data. They collect a massive amount of data from all over the world each day, but they lack a meaningful way of displaying it. Their hope is that being able to visualize their data will allow them to better educate the public and other government organizations (and hopefully secure more funding..) on issues facing our planet.
+The purpose of this assignment is to create a tool that will allow USGS to visualize their earthquake data. They collect a massive amount of data from all over the world each day, but they lack a meaningful way of displaying it. Their hope is that being able to visualize their data will allow them to better educate the public and other government organizations (and hopefully secure more funding..) on issues facing our planet.
 
 There were two steps/levels to this assignment and I only completed the first part due to lack of time. 
 
